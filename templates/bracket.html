@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Cup 2026 Predictor - Bracket & Groups</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/globals.css">
+    <!-- JS for fetching groups -->
+    <script src="/static/main.js" defer></script>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🏆 World Cup 2026</div>
+        <ul class="nav-links">
+            <li><a href="/">Fixtures</a></li>
+            <li><a href="/bracket" class="active" style="color: var(--text-primary);">Bracket & Groups</a></li>
+            <li><a href="/chances">Win Probability</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <header class="page-header">
+            <h1>Knockout Bracket & Groups</h1>
+            <p>Predicted group standings and knockout bracket progressing to the final.</p>
+        </header>
+
+        <section class="winner-section hidden" id="winner-section">
+            <h2>Predicted Champion</h2>
+            <div class="winner-display" id="tournament-winner"></div>
+        </section>
+
+        <!-- Knockout Bracket visualization -->
+        <h2 style="font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1.5rem; color: var(--text-primary); letter-spacing: -0.025em;">Knockout Stage</h2>
+        
+        <div class="bracket-layout">
+            {% set rounds = [
+                ('Round of 32', knockouts.round_of_32, 0),
+                ('Round of 16', knockouts.round_of_16, 1),
+                ('Quarterfinals', knockouts.quarterfinals, 2),
+                ('Semifinals', knockouts.semifinals, 3),
+                ('Final', knockouts.final, 4)
+            ] %}
+            
+            {% for round_name, matches, c in rounds %}
+            <div class="bracket-column">
+                <h3 class="bracket-round-header">{{ round_name }}</h3>
+                <div class="bracket-round-grid">
+                    {% for match in matches %}
+                        {% set span_rows = 2**(c+2) %}
+                        {% set start_row = span_rows * loop.index0 + 1 %}
+                        <div class="bracket-match-wrapper" style="grid-row: {{ start_row }} / span {{ span_rows }};">
+                            <div class="bracket-match">
+                                <div class="bracket-team {% if match.advancing == 1 %}winner{% else %}loser{% endif %}">
+                                    <span class="team-name" style="font-size: 0.95rem;">{{ match.team1 | safe }}</span>
+                                    {% if match.advancing == 1 %}<span class="win-badge">WIN</span>{% endif %}
+                                </div>
+                                <div class="bracket-team {% if match.advancing == 2 %}winner{% else %}loser{% endif %}">
+                                    <span class="team-name" style="font-size: 0.95rem;">{{ match.team2 | safe }}</span>
+                                    {% if match.advancing == 2 %}<span class="win-badge">WIN</span>{% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <h2 style="font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1.5rem; color: var(--text-primary); letter-spacing: -0.025em;">Group Standings</h2>
+        <!-- Populated by main.js -->
+        <div class="groups-grid" id="groups-container">
+            <p style="color: var(--text-secondary);">Loading simulations...</p>
+        </div>
+    </div>
+</body>
+</html>

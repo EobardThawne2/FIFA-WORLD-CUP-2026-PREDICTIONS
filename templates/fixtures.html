@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Cup 2026 Predictor - Fixtures</title>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="/static/globals.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-brand">🏆 World Cup 2026</div>
+        <ul class="nav-links">
+            <li><a href="/" class="active" style="color: var(--text-primary);">Fixtures</a></li>
+            <li><a href="/bracket">Bracket & Groups</a></li>
+            <li><a href="/chances">Win Probability</a></li>
+        </ul>
+    </nav>
+    
+    <div class="container">
+        <header class="page-header">
+            <h1>Match Fixtures</h1>
+            <p>Simulated win probabilities for the 2026 World Cup group stage matches.</p>
+        </header>
+        
+        <div class="fixtures-container">
+            {% for match in matches %}
+            <div class="match-card animate-fade-in" style="animation-delay: {{ loop.index0 * 0.02 }}s;">
+                <div class="match-info">
+                    <span>Group {{ match.group }}</span>
+                    <span>{{ match.date }}</span>
+                </div>
+                <div class="match-teams">
+                    <span class="team-name">{{ match.home | safe }}</span>
+                    <span class="vs">VS</span>
+                    <span class="team-name">{{ match.away | safe }}</span>
+                </div>
+                <div class="prob-labels">
+                    <span>{{ match.home_prob }}%</span>
+                    <span>{{ match.draw_prob }}%</span>
+                    <span>{{ match.away_prob }}%</span>
+                </div>
+                <div class="probability-bar">
+                    <div class="prob-segment blue" style="--target-width: {{ match.home_prob }}%; width: 0;"></div>
+                    <div class="prob-segment gray" style="--target-width: {{ match.draw_prob }}%; width: 0;"></div>
+                    <div class="prob-segment red" style="--target-width: {{ match.away_prob }}%; width: 0;"></div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <!-- Predicted Champion Section -->
+        <section class="predicted-champion-section animate-fade-in" style="animation-delay: 1.2s;">
+            <h2>Predicted Champion</h2>
+            <div class="champion-card">
+                <span class="trophy">🏆</span>
+                <span class="champion-name">{{ winner | safe }}</span>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
