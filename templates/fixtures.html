@@ -36,8 +36,10 @@
                 </div>
                 <div class="match-teams">
                     <span class="team-name">{{ match.home | safe }}</span>
-                    {% if 'Mexico' in match.home or 'Korea Republic' in match.home %}
+                    {% if 'Mexico' in match.home %}
                     <span class="vs" style="font-weight: 700; color: #fff; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 4px;">2:0</span>
+                    {% elif 'Korea Republic' in match.home %}
+                    <span class="vs" style="font-weight: 700; color: #fff; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 4px;">2:1</span>
                     {% else %}
                     <span class="vs">VS</span>
                     {% endif %}
