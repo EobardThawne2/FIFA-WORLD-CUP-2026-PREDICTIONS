@@ -14,7 +14,6 @@
   ],
   "functions": {
     "app.py": {
-      "maxLambdaSize": "500mb",
       "memory": 1024
     }
   }

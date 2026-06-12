@@ -85,7 +85,7 @@ If you ever need to retrain the model with fresh data, just run `python train_mo
 
 ## Deploying to Vercel
 
-This repository is ready to be deployed on Vercel out of the box. The `vercel.json` file increases the `maxLambdaSize` to `500mb` and allocates `1024MB` of memory so that the heavier Python machine learning dependencies (`pandas`, `scikit-learn`) can fit perfectly without timing out or crashing.
+This repository is ready to be deployed on Vercel out of the box. The `vercel.json` file allocates `1024MB` of memory so that the heavier Python machine learning dependencies (`pandas`, `scikit-learn`) can fit perfectly without timing out or crashing.
 
 To deploy, just push your code to a GitHub repository and import the project in your Vercel Dashboard. Vercel will automatically detect the Python Flask setup and handle the rest.
 
