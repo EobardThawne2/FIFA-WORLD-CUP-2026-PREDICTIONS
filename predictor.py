@@ -43,17 +43,6 @@ TEAM_GROUPS = {
     "England": "L", "Croatia": "L", "Ghana": "L", "Panama": "L"
 }
 
-CHAMPIONSHIPS = {
-    "Brazil": 5,
-    "Germany": 4,
-    "Italy": 4,
-    "Argentina": 3,
-    "France": 2,
-    "Uruguay": 2,
-    "England": 1,
-    "Spain": 1
-}
-
 # Precompute probabilities lookup table
 PROB_LOOKUP = {}
 
@@ -76,7 +65,6 @@ def precompute_probabilities():
                     pairs.append((t1, t2))
                     
         home_list, away_list, h_elo_list, a_elo_list, h_form_list, a_form_list, is_home_adv_list = [], [], [], [], [], [], []
-        home_championships_list, away_championships_list = [], []
         hosts = ["United States", "Mexico", "Canada"]
         
         for home, away in pairs:
@@ -95,17 +83,13 @@ def precompute_probabilities():
             h_form_list.append(h_form)
             a_form_list.append(a_form)
             is_home_adv_list.append(is_home_adv)
-            home_championships_list.append(CHAMPIONSHIPS.get(home_std, 0))
-            away_championships_list.append(CHAMPIONSHIPS.get(away_std, 0))
             
         features_df = pd.DataFrame({
             'home_elo': h_elo_list,
             'away_elo': a_elo_list,
             'home_form_last5': h_form_list,
             'away_form_last5': a_form_list,
-            'is_home_advantage': is_home_adv_list,
-            'home_championships': home_championships_list,
-            'away_championships': away_championships_list
+            'is_home_advantage': is_home_adv_list
         })
         
         probs = model.predict_proba(features_df)
@@ -134,28 +118,26 @@ def get_match_probabilities(match):
         
     if model and team_stats:
         # Standardize names
-        home_std = TEAM_MAPPING.get(home, home)
-        away_std = TEAM_MAPPING.get(away, away)
+        home = TEAM_MAPPING.get(home, home)
+        away = TEAM_MAPPING.get(away, away)
         
         # Determine host advantage
         hosts = ["United States", "Mexico", "Canada"]
-        is_home_adv = 1 if home_std in hosts else 0
+        is_home_adv = 1 if home in hosts else 0
         
         # Look up true Elo and Form (default to 1500 and average form 7 if new team)
-        h_elo = team_stats['elo'].get(home_std, 1500)
-        a_elo = team_stats['elo'].get(away_std, 1500)
+        h_elo = team_stats['elo'].get(home, 1500)
+        a_elo = team_stats['elo'].get(away, 1500)
         
-        h_form = get_form(team_stats['form'].get(home_std, []))
-        a_form = get_form(team_stats['form'].get(away_std, []))
+        h_form = get_form(team_stats['form'].get(home, []))
+        a_form = get_form(team_stats['form'].get(away, []))
         
         features_dict = {
             'home_elo': [h_elo], 
             'away_elo': [a_elo], 
             'home_form_last5': [h_form],
             'away_form_last5': [a_form],
-            'is_home_advantage': [is_home_adv],
-            'home_championships': [CHAMPIONSHIPS.get(home_std, 0)],
-            'away_championships': [CHAMPIONSHIPS.get(away_std, 0)]
+            'is_home_advantage': [is_home_adv]
         }
         features_df = pd.DataFrame(features_dict)
         
