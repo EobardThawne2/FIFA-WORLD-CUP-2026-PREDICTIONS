@@ -1,5 +1,4 @@
 import pandas as pd
-import lightgbm as lgb
 import joblib
 import numpy as np
 from sklearn.metrics import accuracy_score
@@ -116,17 +115,17 @@ def train():
     X_test = test_df[features]
     y_test = test_df['target']
 
-    # 2. Initialize LightGBM
-    print("Initializing LightGBM classifier...")
-    model = lgb.LGBMClassifier(
-        objective='multiclass',
-        num_class=3,
+    # 2. Initialize HistGradientBoostingClassifier
+    print("Initializing HistGradientBoostingClassifier...")
+    from sklearn.ensemble import HistGradientBoostingClassifier
+    model = HistGradientBoostingClassifier(
         learning_rate=0.05,
-        n_estimators=100
+        max_iter=100,
+        random_state=42
     )
 
     # 3. Train
-    print("Training LightGBM model...")
+    print("Training model...")
     model.fit(X_train, y_train)
 
     # 4. Evaluate

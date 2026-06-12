@@ -13,7 +13,7 @@ team_stats = None
 if os.path.exists(MODEL_PATH) and os.path.exists(STATS_PATH):
     model = joblib.load(MODEL_PATH)
     team_stats = joblib.load(STATS_PATH)
-    print("Loaded LightGBM model and team states successfully.")
+    print("Loaded model and team states successfully.")
 else:
     print("model.pkl or team_stats.pkl not found. Falling back to dummy predictions.")
 
