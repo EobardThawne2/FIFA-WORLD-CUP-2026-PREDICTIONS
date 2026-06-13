@@ -40,6 +40,10 @@
                     <span class="vs" style="font-weight: 700; color: #fff; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 4px;">2:0</span>
                     {% elif 'Korea Republic' in match.home %}
                     <span class="vs" style="font-weight: 700; color: #fff; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 4px;">2:1</span>
+                    {% elif 'Canada' in match.home %}
+                    <span class="vs" style="font-weight: 700; color: #fff; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 4px;">1:1</span>
+                    {% elif 'United States' in match.home %}
+                    <span class="vs" style="font-weight: 700; color: #fff; background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 4px;">4:1</span>
                     {% else %}
                     <span class="vs">VS</span>
                     {% endif %}
@@ -56,7 +60,7 @@
                     <div class="prob-segment red" style="--target-width: {{ match.away_prob }}%; width: 0;"></div>
                 </div>
                 
-                {% if 'Mexico' in match.home or 'Korea Republic' in match.home %}
+                {% if 'Mexico' in match.home or 'Korea Republic' in match.home or 'Canada' in match.home or 'United States' in match.home %}
                 <div class="prediction-badge animate-fade-in" style="text-align: center; margin-top: 15px; color: #10b981; font-weight: 600; font-size: 0.9rem; background: rgba(16,185,129,0.1); padding: 5px 10px; border-radius: 6px; border: 1px solid rgba(16,185,129,0.2);">
                     ✅ Prediction Correct
                 </div>
